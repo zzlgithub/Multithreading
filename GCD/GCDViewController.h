@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, GCD_Type){
+typedef NS_ENUM(NSInteger, GCD_Type){//  同步/异步 和  串行队列/并行队列组合
     dispatch_sync_DISPATCH_QUEUE_SERIAL = 10,
     dispatch_sync_DISPATCH_QUEUE_CONCURREN,
     dispatch_sync_mainQueue,
@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, GCD_Type){
     dispatch_async_globalQueue
 };
 
-typedef NS_ENUM(NSInteger, Task_Type){
+typedef NS_ENUM(NSInteger, Task_Type){//任务执行顺序
     Task_Type1 = 20,
     Task_Type2,
     Task_Type3,
@@ -28,10 +28,11 @@ typedef NS_ENUM(NSInteger, Task_Type){
 };
 
 typedef NS_ENUM(NSInteger, GCD_OtherUse){
-    Dispatch_once = 30,
-    Dispatch_after,
-    Dispatch_group,
-    Dispatch_barrier_async
+    Dispatch_once = 30,//单利
+    Dispatch_after,//延时
+    Dispatch_group,//并发队列任务执行 反馈是否执行完毕
+    Dispatch_barrier_async,//并发队列任务执行控制
+    Dispatch_barrier_asyncControll//并发队列任务执行控制
 };
 
 @interface GCDViewController : UIViewController

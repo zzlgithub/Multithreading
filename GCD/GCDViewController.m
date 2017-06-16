@@ -56,9 +56,9 @@
      通过测试我们得出如下几个结论
      1.dispatch_sync添加任务到队列，不会创建新的线程都是在当前线程中处理的。无论添加到串行队列里或者并行队列里，都是串行效果，因为这个方法是等任务执行完成以后才会返回。
      2.dispatch_async添加任务到
-     2-1：mainQueue不创建线程，在主线程中串行执行
-     2-2：globalQueue 和 并行队列：根据任务系统决定开辟线程个数
-     2-3：串行对列：创建一个线程：串行执行。
+     mainQueue不创建线程，在主线程中串行执行
+     globalQueue 和 并行队列：根据任务系统决定开辟线程个数
+     串行对列：创建一个线程：串行执行。
      
      */
    
@@ -87,13 +87,15 @@
     dispatch_queue_t serialQueue = dispatch_queue_create("serialQueue", DISPATCH_QUEUE_SERIAL);
     dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    
+    //相当于并发队列
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     
     
     switch (self.gcdType) {
         case dispatch_sync_DISPATCH_QUEUE_SERIAL:
         {
-            for(int i=0;i<3;i++){
+            for(int i = 0;i < 3; i++){
                 dispatch_sync(serialQueue, ^{
                     NSLog(@"dispatch_sync-serialQueue-%d\n currentThread:%@",i,[NSThread currentThread]);
                 });
@@ -248,12 +250,16 @@
         }
         case Task_Type2:
         {
-            //打印结果123  分析：mainQueue里存在任务1，同步线程任务，当执行dispatch_sync时，拿到全局队列，
+            //打印结果1 2 3  分析：mainQueue里存在任务1，同步线程任务，当执行dispatch_sync时，拿到全局队列，
             NSLog(@"1"); // 任务1
+            NSLog(@"1 %@",[NSThread currentThread]);
             dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 NSLog(@"2"); // 任务2
+                NSLog(@"2 %@",[NSThread currentThread]);
             });
             NSLog(@"3"); // 任务3
+            NSLog(@"3 %@",[NSThread currentThread]);
+            
             break;
         }
         case Task_Type3:
@@ -263,7 +269,7 @@
             dispatch_async(queue, ^{
                 NSLog(@"2 %@",[NSThread currentThread]); // 任务2
                 
-                dispatch_sync(queue, ^{
+                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                     NSLog(@"3"); // 任务3
                 });
                 NSLog(@"4"); // 任务4
@@ -274,7 +280,7 @@
         }
         case Task_Type4:
         {
-            //1,5,2,3,4 可以看出在全局队列里拿到住队列同步执行是没有问题的。
+            //1,5,2,3,4 可以看出在全局队列里拿到主队列同步执行是没有问题的。
             NSLog(@"****************");
             NSLog(@"1"); // 任务1
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -289,18 +295,15 @@
         }
         case Task_Type5:
         {
-            //执行结果：11，44
+            //执行结果：1，4
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                NSLog(@"11"); // 任务1
+                NSLog(@"1"); // 任务1
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    NSLog(@"22"); // 任务2
+                    NSLog(@"2"); // 任务2
                 });
-                NSLog(@"33"); // 任务3
+                NSLog(@"3"); // 任务3
             });
-            NSLog(@"44"); // 任务4
-            while (1) {
-            }
-            NSLog(@"55"); // 任务5
+            NSLog(@"4"); // 任务4
             break;
         }
         default:
@@ -334,18 +337,18 @@
             dispatch_group_t group = dispatch_group_create();
             dispatch_group_async(group, globalQueue, ^{
                 sleep(1);
-                NSLog(@"1");
+                NSLog(@"1 %@",[NSThread currentThread]);
             });
             dispatch_group_async(group, globalQueue, ^{
                 sleep(2);
-                NSLog(@"3");
+                NSLog(@"3 %@",[NSThread currentThread]);
             });
             dispatch_group_async(group, globalQueue, ^{
                 sleep(3);
-                NSLog(@"2");
+                NSLog(@"2 %@",[NSThread currentThread]);
             });
             dispatch_group_notify(group, globalQueue, ^{
-                NSLog(@"任务结束  Over!");
+                NSLog(@"队列组里任务执行完毕  Over!");
             });
             break;
         }
@@ -354,17 +357,17 @@
             
             dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
             dispatch_async(concurrentQueue, ^(){
-                NSLog(@"dispatch-1");
+                NSLog(@" 任务1 %@",[NSThread currentThread]);
             });
             dispatch_async(concurrentQueue, ^(){
-                NSLog(@"dispatch-2");
+                NSLog(@"任务 2 %@",[NSThread currentThread]);
             });
             
             
             //这个方法重点是传入的 queue，当传入的 queue 是 DISPATCH_QUEUE_CONCURRENT  队列时，该方法会阻塞这个 queue（注意是阻塞 queue ，而不是阻塞当前线程），一直等到这个 queue 中排在它前面的任务都执行完成后才会开始执行自己，自己执行完毕后，再会取消阻塞，使这个 queue 中排在它后面的任务继续执行。 如果传入的是其他的 queue, 那么它就和 dispatch_async 一样了
             
             dispatch_barrier_async(concurrentQueue, ^(){
-                NSLog(@"dispatch-barrier-1+2");
+                NSLog(@"任务 1 任务 2 %@",[NSThread currentThread]);
             });
             
             
@@ -372,21 +375,50 @@
             /**
              *  这个方法的使用和上一个一样，传入自定义的并发队列（DISPATCH_QUEUE_CONCURRENT），它和上一个方法一样的阻塞 queue，不同的是 这个方法还会 阻塞当前线程,如果你传入的是其他的 queue, 那么它就和 dispatch_sync 一样了
              */
-            dispatch_barrier_sync(concurrentQueue, ^{
-                
-            });
+//            dispatch_barrier_sync(concurrentQueue, ^{
+//                
+//            });
             
             
             
             dispatch_async(concurrentQueue, ^(){
-                NSLog(@"dispatch-3");
+                NSLog(@"任务 3 %@",[NSThread currentThread]);
             });
+            
+            
             dispatch_barrier_async(concurrentQueue, ^{
-                NSLog(@"dispatch-barrier-1+2+3");
+                NSLog(@"任务 1 任务2 任务3 %@",[NSThread currentThread]);
             });
+            
+            
             dispatch_async(concurrentQueue, ^(){
-                NSLog(@"dispatch-4");
+                NSLog(@"任务4 %@",[NSThread currentThread]);
             });
+            break;
+        }
+    
+        case Dispatch_barrier_asyncControll:{
+            dispatch_queue_t concurrentQueue = dispatch_queue_create("concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
+            
+            for (int i = 0; i < 10; i ++) {
+                
+                //控制任务 6 7 8 9在 任务 5 之后执行
+                if (i == 5) {
+                    dispatch_barrier_async(concurrentQueue, ^(){
+                        NSLog(@"任务 5 %@",[NSThread currentThread]);
+                    });
+                    continue;
+                }
+                
+                dispatch_async(concurrentQueue, ^(){
+                    sleep(1);
+                    NSLog(@"任务%d %@",i,[NSThread currentThread]);
+                });
+                
+                
+                
+            }
+
             break;
         }
 

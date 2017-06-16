@@ -138,6 +138,9 @@
                 
             }];
             NSOperationQueue * queue=[[NSOperationQueue alloc]init];
+            
+            //设置后任务不会并发执行
+//            queue.maxConcurrentOperationCount = 1;
             //把操作添加到队列中
             [queue addOperation:operation1];
             [queue addOperation:operation2];
