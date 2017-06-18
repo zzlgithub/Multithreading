@@ -9,13 +9,11 @@
 #import "OperationController.h"
 #import "OperationDetailController.h"
 
-
 @interface OperationController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray * dataSource;
 
 @end
-
 
 static NSString * const identifier = @"TableViewCell";
 @implementation OperationController
@@ -53,6 +51,10 @@ static NSString * const identifier = @"TableViewCell";
     OperationDetailController * vc = [[OperationDetailController alloc] init];
     vc.operationType = indexPath.row + 10;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)dealloc{
+    
 }
 
 - (void)didReceiveMemoryWarning {

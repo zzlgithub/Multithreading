@@ -39,7 +39,11 @@
     并行队列:      当前线程一个一个执行             开辟很多子线程，同时执行
  
  
-   主队列：是一个特殊的串行队列。它用于刷新 UI，任何需要刷新 UI 的工作都要在主队列执行，所以一般耗时的任务都要放到别的线程执行
+   主队列：是一个特殊的串行队列。它用于刷新 UI，任何需要刷新 UI 的工作都要在主队列执行，所以一
+          般耗时的任务都要放到别的线程执行
+          是和主线程相关联的队列，主队列是GCD自带的一种特殊的串行队列，放在主队列中得任务，都会放到主线程中执行。
+          如果把任务放到主队列中进行处理，那么不论处理函数是异步的还是同步的都不会开启新的线程。
+ 
  
    全局并行队列：并行任务一般都加入到这个队列
  */
@@ -184,6 +188,7 @@
             }
             
              //异步创建了一个子线程， 在串行队列里  任务是串行执行的
+            // 会开启线程，但是只开启一个线程
             break;
         }
         case dispatch_async_DISPATCH_QUEUE_CONCURRENT:
@@ -246,6 +251,23 @@
 //                NSLog(@"2"); // 任务2
 //            });
 //            NSLog(@"3"); // 任务3
+            
+            
+                 //获取主队列
+                 dispatch_queue_t queue=dispatch_get_main_queue();
+            
+                 dispatch_async(queue, ^{
+                         NSLog(@"任务1--%@",[NSThread currentThread]);
+                     });
+                 dispatch_async(queue, ^{
+                         NSLog(@"任务2--%@",[NSThread currentThread]);
+                     });
+                 dispatch_async(queue, ^{
+                         NSLog(@"任务3--%@",[NSThread currentThread]);
+                     });
+            
+            //使用异步函数执行主队列中得任务  不会开辟子线程处理
+            
             break;
         }
         case Task_Type2:

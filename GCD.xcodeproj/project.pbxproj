@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F609C9791EF61C17000A0E90 /* DownLoadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F609C9781EF61C17000A0E90 /* DownLoadOperation.m */; };
+		F6702C511EF574E7008CAC66 /* CustomOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6702C4F1EF574E7008CAC66 /* CustomOperationController.m */; };
+		F6702C521EF574E7008CAC66 /* CustomOperationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6702C501EF574E7008CAC66 /* CustomOperationController.xib */; };
+		F6702C561EF57504008CAC66 /* CustomOperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6702C541EF57504008CAC66 /* CustomOperationCell.m */; };
+		F6702C571EF57504008CAC66 /* CustomOperationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6702C551EF57504008CAC66 /* CustomOperationCell.xib */; };
+		F6702C5A1EF5790F008CAC66 /* BeautyGirl.m in Sources */ = {isa = PBXBuildFile; fileRef = F6702C591EF5790F008CAC66 /* BeautyGirl.m */; };
+		F6702C5C1EF58401008CAC66 /* girls.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6702C5B1EF58401008CAC66 /* girls.plist */; };
 		F686D8E41EF284C8007B8E4A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F686D8E31EF284C8007B8E4A /* main.m */; };
 		F686D8E71EF284C8007B8E4A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F686D8E61EF284C8007B8E4A /* AppDelegate.m */; };
 		F686D8EA1EF284C8007B8E4A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F686D8E91EF284C8007B8E4A /* ViewController.m */; };
@@ -42,6 +49,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F609C9771EF61C17000A0E90 /* DownLoadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownLoadOperation.h; sourceTree = "<group>"; };
+		F609C9781EF61C17000A0E90 /* DownLoadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownLoadOperation.m; sourceTree = "<group>"; };
+		F6702C4E1EF574E7008CAC66 /* CustomOperationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomOperationController.h; sourceTree = "<group>"; };
+		F6702C4F1EF574E7008CAC66 /* CustomOperationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomOperationController.m; sourceTree = "<group>"; };
+		F6702C501EF574E7008CAC66 /* CustomOperationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOperationController.xib; sourceTree = "<group>"; };
+		F6702C531EF57504008CAC66 /* CustomOperationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomOperationCell.h; sourceTree = "<group>"; };
+		F6702C541EF57504008CAC66 /* CustomOperationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomOperationCell.m; sourceTree = "<group>"; };
+		F6702C551EF57504008CAC66 /* CustomOperationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOperationCell.xib; sourceTree = "<group>"; };
+		F6702C581EF5790F008CAC66 /* BeautyGirl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeautyGirl.h; sourceTree = "<group>"; };
+		F6702C591EF5790F008CAC66 /* BeautyGirl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeautyGirl.m; sourceTree = "<group>"; };
+		F6702C5B1EF58401008CAC66 /* girls.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = girls.plist; sourceTree = "<group>"; };
 		F686D8DF1EF284C8007B8E4A /* GCD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F686D8E31EF284C8007B8E4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F686D8E51EF284C8007B8E4A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -96,6 +114,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F6702C4D1EF574CF008CAC66 /* CustomOperation */ = {
+			isa = PBXGroup;
+			children = (
+				F6702C4E1EF574E7008CAC66 /* CustomOperationController.h */,
+				F6702C4F1EF574E7008CAC66 /* CustomOperationController.m */,
+				F6702C501EF574E7008CAC66 /* CustomOperationController.xib */,
+				F6702C531EF57504008CAC66 /* CustomOperationCell.h */,
+				F6702C541EF57504008CAC66 /* CustomOperationCell.m */,
+				F6702C551EF57504008CAC66 /* CustomOperationCell.xib */,
+				F6702C581EF5790F008CAC66 /* BeautyGirl.h */,
+				F6702C591EF5790F008CAC66 /* BeautyGirl.m */,
+				F609C9771EF61C17000A0E90 /* DownLoadOperation.h */,
+				F609C9781EF61C17000A0E90 /* DownLoadOperation.m */,
+			);
+			path = CustomOperation;
+			sourceTree = "<group>";
+		};
 		F686D8D61EF284C8007B8E4A = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +168,7 @@
 				F686D8EE1EF284C8007B8E4A /* Assets.xcassets */,
 				F686D8F01EF284C8007B8E4A /* LaunchScreen.storyboard */,
 				F686D8F31EF284C8007B8E4A /* Info.plist */,
+				F6702C5B1EF58401008CAC66 /* girls.plist */,
 				F686D8E21EF284C8007B8E4A /* Supporting Files */,
 			);
 			path = GCD;
@@ -167,6 +203,7 @@
 		F6FDBFA71EF383C60032143A /* NSOperation */ = {
 			isa = PBXGroup;
 			children = (
+				F6702C4D1EF574CF008CAC66 /* CustomOperation */,
 				F6FDBFA81EF383D80032143A /* OperationController.h */,
 				F6FDBFA91EF383D80032143A /* OperationController.m */,
 				F6FDBFAA1EF383D80032143A /* OperationController.xib */,
@@ -290,8 +327,11 @@
 				F686D9191EF286E3007B8E4A /* TableViewCell.xib in Resources */,
 				F686D8EF1EF284C8007B8E4A /* Assets.xcassets in Resources */,
 				F686D8ED1EF284C8007B8E4A /* Main.storyboard in Resources */,
+				F6702C571EF57504008CAC66 /* CustomOperationCell.xib in Resources */,
+				F6702C521EF574E7008CAC66 /* CustomOperationController.xib in Resources */,
 				F6FDBFB11EF39B7E0032143A /* OperationDetailController.xib in Resources */,
 				F6FDBFAC1EF383D80032143A /* OperationController.xib in Resources */,
+				F6702C5C1EF58401008CAC66 /* girls.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,9 +360,13 @@
 				F6FDBFAB1EF383D80032143A /* OperationController.m in Sources */,
 				F686D9181EF286E3007B8E4A /* TableViewCell.m in Sources */,
 				F686D8E71EF284C8007B8E4A /* AppDelegate.m in Sources */,
+				F609C9791EF61C17000A0E90 /* DownLoadOperation.m in Sources */,
 				F686D91C1EF287CF007B8E4A /* GCDViewController.m in Sources */,
 				F686D8E41EF284C8007B8E4A /* main.m in Sources */,
+				F6702C561EF57504008CAC66 /* CustomOperationCell.m in Sources */,
+				F6702C511EF574E7008CAC66 /* CustomOperationController.m in Sources */,
 				F6FDBFB01EF39B7E0032143A /* OperationDetailController.m in Sources */,
+				F6702C5A1EF5790F008CAC66 /* BeautyGirl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

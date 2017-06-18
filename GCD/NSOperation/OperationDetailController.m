@@ -39,6 +39,9 @@
  */
 
 
+/**
+ *  操作对象默认在主线程中执行，只有添加到队列中才会开启新的线程。即默认情况下，如果操作没有放到队列中queue中，都是同步执行。只有将NSOperation放到一个NSOperationQueue中,才会异步执行操作
+ */
 
 @interface OperationDetailController ()
 

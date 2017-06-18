@@ -10,7 +10,7 @@
 #import "TableViewCell.h"
 #import "GCDViewController.h"
 #import "OperationController.h"
-
+#import "CustomOperationController.h"
 
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -31,6 +31,12 @@ static NSString * const identifier = @"MyTableViewCell";
     OperationController * vc = [[OperationController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (IBAction)gotoCustomOperation:(id)sender {
+    CustomOperationController * vc = [[CustomOperationController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 
 #pragma mark   -------  life cycle -----
