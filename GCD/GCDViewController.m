@@ -358,20 +358,47 @@
             dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
             dispatch_group_t group = dispatch_group_create();
             dispatch_group_async(group, globalQueue, ^{
+                
                 sleep(1);
-                NSLog(@"1 %@",[NSThread currentThread]);
+                NSLog(@"任务1 %@",[NSThread currentThread]);
             });
             dispatch_group_async(group, globalQueue, ^{
+                
                 sleep(2);
-                NSLog(@"3 %@",[NSThread currentThread]);
+                NSLog(@"任务3 %@",[NSThread currentThread]);
             });
             dispatch_group_async(group, globalQueue, ^{
+                
                 sleep(3);
-                NSLog(@"2 %@",[NSThread currentThread]);
+                NSLog(@"任务2 %@",[NSThread currentThread]);
             });
+            
+            dispatch_group_enter(group);
+            dispatch_async(globalQueue, ^{
+                NSLog(@"任务 4 %@",[NSThread currentThread]);
+                dispatch_group_leave(group);
+            });
+            
+            dispatch_group_enter(group);
+            dispatch_async(globalQueue, ^{
+                NSLog(@"任务 5 %@ ",[NSThread currentThread]);
+                dispatch_group_leave(group);
+            });
+            
+            dispatch_group_enter(group);
+            dispatch_async(globalQueue, ^{
+                NSLog(@"任务 6 %@",[NSThread currentThread]);
+                dispatch_group_leave(group);
+            });
+            
+            
             dispatch_group_notify(group, globalQueue, ^{
                 NSLog(@"队列组里任务执行完毕  Over!");
             });
+            
+            /**
+             *  假如一个页面有很多任务处理  另一个任务依赖于这些任务全部处理结束才能继续处理   可以考虑使用队列组,PS:某控制器逻辑复杂 有多个网络请求，可以把所有请求加入队列组 队列里任务全部处理结束 再进行UI刷新。
+             */
             break;
         }
         case Dispatch_barrier_async:
@@ -441,6 +468,49 @@
                 
             }
 
+            break;
+        }
+        case Dispatch_semaphore_t:{
+    
+            /**
+             *  dispatch_semaphore_wait，这个方法会一直等待，直到信号量的值大于等于1才会执行后面的代码。执行完后，信号量的值减1。
+                dispatch_semaphore_signal，表示将信号量的值加1。
+             */
+            
+         
+            //模拟线程安全操作
+            //创建一个信号量 初始化值为 1
+            dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+            
+            dispatch_queue_t concurrentQueue = dispatch_queue_create("com.jueyingxx.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+            
+            NSMutableArray * temArr = [NSMutableArray array];
+            
+            for (NSInteger i = 0; i < 666; i++) {
+                dispatch_async(concurrentQueue, ^{
+                    
+                    // 第一个线程操作的时候信号量为1 可以继续执行操作，执行之后信号量的值减1，其他所有线程到这里都必须等待。
+                    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                    // 只有一个线程操作数据线程安全
+                    [temArr addObject:[NSString stringWithFormat:@"%ld", i]];
+                    
+                    // 当前线程执行操作后，信号量加1，让处于等待状态的其他线程进入处理数据。
+                    dispatch_semaphore_signal(semaphore);
+                });
+            }
+            
+            
+            //打印数据  观看数据加入顺序是正确的  没有出现多线程竞争数据问题
+            dispatch_async(dispatch_get_main_queue(), ^{
+                for (NSString * str in temArr) {
+                    NSLog(@"%@",str);
+                }
+            });
+            
+            /**
+             *  总结  信号量 相当于对同步锁  对多线程操作进行加锁  确保数据安全
+             */
+   
             break;
         }
 

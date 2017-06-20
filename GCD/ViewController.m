@@ -115,7 +115,7 @@ static NSString * const identifier = @"MyTableViewCell";
                        @"dispatch_async + DISPATCH_QUEUE_SERIAL(异步 + 串行队列)",
                        @"dispatch_async + DISPATCH_QUEUE_CONCURRENT(异步 + 并行队列)",
                        @"dispatch_async + mainQueue(异步 + 主队列)",
-                       @"dispatch_async + globalQueue(异步 + 全局队列)"],@[@"BlockTask1",@"BlockTask2",@"BlockTask3",@"BlockTask4",@"BlockTask5"],@[@"dispath_once",@"dispatch_after",@"dispatch_group",@"dispatch_barrier_async",@"Dispatch_barrier_asyncControll"],nil];
+                       @"dispatch_async + globalQueue(异步 + 全局队列)"],@[@"BlockTask1",@"BlockTask2",@"BlockTask3",@"BlockTask4",@"BlockTask5"],@[@"dispath_once",@"dispatch_after",@"dispatch_group",@"dispatch_barrier_async",@"Dispatch_barrier_asyncControll",@"dispatch_semaphore_t"],nil];
     }
     return _dataSource;
 }

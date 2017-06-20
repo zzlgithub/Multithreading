@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, GCD_Type){//  同步/异步 和  串行队列/并行�
     dispatch_async_globalQueue
 };
 
-typedef NS_ENUM(NSInteger, Task_Type){//任务执行顺序
+typedef NS_ENUM(NSInteger, Task_Type){//任务执行顺序枚举
     Task_Type1 = 20,
     Task_Type2,
     Task_Type3,
@@ -27,12 +27,13 @@ typedef NS_ENUM(NSInteger, Task_Type){//任务执行顺序
     Task_Type5,
 };
 
-typedef NS_ENUM(NSInteger, GCD_OtherUse){
+typedef NS_ENUM(NSInteger, GCD_OtherUse){//其他应用枚举
     Dispatch_once = 30,//单利
     Dispatch_after,//延时
     Dispatch_group,//并发队列任务执行 反馈是否执行完毕
     Dispatch_barrier_async,//并发队列任务执行控制
-    Dispatch_barrier_asyncControll//并发队列任务执行控制
+    Dispatch_barrier_asyncControll,//并发队列任务执行控制
+    Dispatch_semaphore_t//GCD的信号量使用
 };
 
 @interface GCDViewController : UIViewController

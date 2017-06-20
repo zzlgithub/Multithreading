@@ -29,8 +29,11 @@
     NSURLSessionDataTask * task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIImage *imgae=[UIImage imageWithData:data];
-            if (self.DidFishedDownLoadBlock) {
-                weakSelf.DidFishedDownLoadBlock(imgae,self);
+            
+            if (imgae && imgae!= nil) {
+                if (self.DidFishedDownLoadBlock) {
+                    weakSelf.DidFishedDownLoadBlock(imgae,self);
+                }
             }
         });
        
